@@ -12,3 +12,9 @@ function AddCardInput() {
 const [prompt, setPrompt] = useState('');
 const [response, setResponse] = useState('');
 const [topic, setTopic] = useState(0);
+
+const home = () => {
+    console.log('');
+    history.push('/')
+}
+
