@@ -8,7 +8,7 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
     const sqlQuery = `
-        SELECT * FROM "flashcards"
+        SELECT * FROM "cards"
         WHERE "user_id"=$1;
     `;
     const sqlValues = [req.user.id];
@@ -25,7 +25,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     console.log(req.body);
     console.log('user', req.user);
     const sqlQuery = `
-    INSERT INTO "flashcards"
+    INSERT INTO "cards"
         ("prompt", "response", "user_id")
     VALUES
         ($1, $2, $3);

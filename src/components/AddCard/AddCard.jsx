@@ -9,21 +9,27 @@ import { useHistory } from 'react-router';
 // or even care what the redux state is
 
 function AddCardPage() {
+
+  useEffect(() => {
+    dispatch({ type: 'FETCH_CARD'})
+  }, [])
+
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [prompt, setPrompt] = useState('');
-  const [response, setResponse] = useState('');
-  const [category, setCategory] = useState(0);
+  const [promptInput, setPromptInput] = useState('');
+  const [responseInput, setResponseInput] = useState('');
+  const [categoryInput, setCategoryInput] = useState(0);
 
   const saveCardClick = (event) => {
     event.preventDefault();
-    const cardToAdd = {
-      prompt: prompt,
-      response: response,
-      category_id: Number(category)
-    }
-    dispatch({type:'ADD_FLASHCARD', payload: cardToAdd})
+    dispatch({
+      type:'ADD_CARD',
+      payload:{ 
+        prompt: promptInput,
+        response: responseInput,
+        category_id: Number(categoryInput)}
+    })
   }
 
   return (
@@ -31,14 +37,14 @@ function AddCardPage() {
       <p>Add Card Page</p>
       <form>
         <textarea rows ="10" cols ="50" placeholder="prompt" 
-          onChange={(event) => setPrompt(event.target.value)}>
+          onChange={(event) => setPromptInput(event.target.value)}>
         </textarea>
         <br />
         <textarea rows ="10" cols ="50" placeholder="response"
-          onChange={(event) => setResponse(event.target.value)}>
+          onChange={(event) => setResponseInput(event.target.value)}>
         </textarea>
         <br />
-      <select name="Category" value={category} onChange={(event) => setCategory(event.target.value)}>
+      <select name="Category" value={categoryInput} onChange={(event) => setCategoryInput(event.target.value)}>
         <option value="1">Interview Prep</option>
         <option value="2">Front-End</option>
         <option value="3">Back-End</option>
