@@ -3,24 +3,18 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
+
 /**
- * Get all of the flashcards for correct user
+ * GET route template
  */
-router.get('/', rejectUnauthenticated, (req, res) => {
-    const sqlQuery = `
-        SELECT * FROM "cards"
-        WHERE "user_id"=$1;
-    `;
-    const sqlValues = [req.user.id];
-    pool.query(sqlQuery, sqlValues)
-    .then((dbRes) => {
-    res.send(dbRes.rows);
-    })
-    .catch((dbErr) => {
-    res.sendStatus(500);
-    })
+router.get('/', (req, res) => {
+  // GET route code here
 });
 
+/**
+ * POST route template
+ */
+  // POST route code here
 router.post('/', rejectUnauthenticated, (req, res) => {
     console.log('in router post');
     console.log(req.body);
@@ -45,4 +39,5 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     res.sendStatus(500);
     })
 });
+
 module.exports = router;

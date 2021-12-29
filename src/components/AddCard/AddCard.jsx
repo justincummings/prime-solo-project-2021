@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
@@ -16,15 +17,17 @@ function AddCardPage() {
 
   const dispatch = useDispatch();
   const history = useHistory();
+  const cards = useSelector((store) => store.card);
 
   const [promptInput, setPromptInput] = useState('');
   const [responseInput, setResponseInput] = useState('');
   const [categoryInput, setCategoryInput] = useState(0);
 
   const saveCardClick = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
+    console.log('saveCardClicked');
     dispatch({
-      type:'ADD_CARD',
+      type:'CREATE_CARD',
       payload:{ 
         prompt: promptInput,
         response: responseInput,
