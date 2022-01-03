@@ -2,21 +2,22 @@ import React, { useEffect, useState } from 'react';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
+import ReactDOM from 'react-dom';
+
 
 
 
 function UserPage() {
 // this component doesn't do much to start, just renders some user reducer info to the DOM
-  // const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_CARDS' });
+    dispatch({ type: 'FETCH_CARD' });
   }, []);
 
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
-  const cardReducer = useSelector((store) => store.cardReducer);
-  console.log('cardReducer', cardReducer)
+  const cards = useSelector((store) => store.cardReducer);
+  console.log('cardReducer', cards);
   
   return (
     <main>
@@ -26,9 +27,15 @@ function UserPage() {
         <LogOutButton className="btn" />
         <h1>Welcome to TechDeck</h1>
       </div>
-        {/* {cardReducer.map((card) => {
-            return <div key={card.id}> {card.prompt}</div>
-          })} */}
+      <section className="cards">
+        {cards.map((card) => {
+            return (
+              <div key={card.id}>
+                <h2>{card.prompt}</h2>
+              </div>
+            );
+          })}
+      </section>
     </main>
   );
 }

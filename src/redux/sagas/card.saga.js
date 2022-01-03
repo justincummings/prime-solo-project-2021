@@ -22,14 +22,14 @@ function* fetchCard (action) {
         try {
             const response = yield axios({
                 method: 'GET',
-                url: '/api/user'
+                url: '/api/addcard'
             })
             yield put({
                 type: 'SET_CARD',
                 payload: response.data
             })
         } catch(err) {
-            console.error('fetchCard error', error)
+            console.error('fetchCard error', err)
         }
     }
 

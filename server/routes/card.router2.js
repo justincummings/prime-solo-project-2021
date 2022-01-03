@@ -14,6 +14,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         WHERE "user_id"=$1;
     `;
     const sqlValues = [req.user.id];
+    console.log('in get route for cards', sqlQuery);
     pool.query(sqlQuery, sqlValues)
         .then((dbRes) => {
             res.send(dbRes.rows);
