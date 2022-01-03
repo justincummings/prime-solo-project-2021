@@ -7,8 +7,20 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 /**
  * GET route template
  */
-router.get('/', (req, res) => {
+router.get('/', rejectUnauthenticated, (req, res) => {
   // GET route code here
+    const sqlQuery = `
+        SELECT * FROM "cards"
+        WHERE "user_id"=$1;
+    `;
+    const sqlValues = [req.user.id];
+    pool.query(sqlQuery, sqlValues)
+        .then((dbRes) => {
+            res.send(dbRes.rows);
+        })
+    .catch((dbErr) => {
+        res.sendStatus(500);
+    })
 });
 
 /**
