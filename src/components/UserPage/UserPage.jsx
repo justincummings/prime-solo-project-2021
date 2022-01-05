@@ -3,22 +3,20 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import ReactDOM from 'react-dom';
-
-
-
+import './CardList.css'
+import axios from 'axios';
 
 function UserPage() {
-// this component doesn't do much to start, just renders some user reducer info to the DOM
 
   useEffect(() => {
     dispatch({ type: 'FETCH_CARD' });
   }, []);
 
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector((store) => store.user);
   const cards = useSelector((store) => store.cardReducer);
-  console.log('cardReducer', cards);
-  
+
   return (
     <main>
       <div className="container">
@@ -30,9 +28,7 @@ function UserPage() {
       <section className="cards">
         {cards.map((card) => {
             return (
-              <div key={card.id}>
-                <h2>{card.prompt}</h2>
-              </div>
+              <Card {...card} key={card.id} />
             );
           })}
       </section>
@@ -40,5 +36,14 @@ function UserPage() {
   );
 }
 
-// this allows us to use <App /> in index.js
 export default UserPage;
+
+
+function Card(card) {
+  const [showResponse, setShowResponse] = useState(false);
+
+  return (
+    <div onClick={() => setShowResponse(!showResponse)}>
+      {showResponse?<div>{card.response}</div>:<div >{card.prompt}</div>}
+    </div>)
+}

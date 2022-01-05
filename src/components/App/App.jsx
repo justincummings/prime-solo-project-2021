@@ -19,6 +19,7 @@ import AddCard from '../AddCard/AddCard';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import ResponsePage from '../ResponsePage/ResponsePage';
 
 import './App.css';
 
@@ -66,6 +67,14 @@ function App() {
             path="/addcard"
           >
             <AddCard />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows UserPage else shows LoginPage
+            exact
+            path="/response"
+          >
+            <ResponsePage />
           </ProtectedRoute>
 
           <Route

@@ -1,9 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-function* createCard(action) {
-    console.log('in createCard saga', action.payload);
-
+function* createCard (action) {
     try {
         const response = yield axios({
             method: 'POST',
@@ -12,13 +10,11 @@ function* createCard(action) {
         })
         yield put({ type: 'FETCH_CARD'})
     } catch(err) {
-        console.error('fetchCard error', error)
+        console.error('fetchCard error', err)
     }
 }
 
 function* fetchCard (action) {
-    console.log('in fetchCard saga', action.payload);
-
         try {
             const response = yield axios({
                 method: 'GET',
@@ -33,10 +29,27 @@ function* fetchCard (action) {
         }
     }
 
+function* fetchCardResponse (action) {
+    console.log ('fetchCardResponse saga', action.payload);
+    try {
+        const response = yield axios({
+            method: 'PUT',
+            url: 'api/addcard'
+        })
+        yield put({
+            type: 'FETCH_CARD_RESPONSE',
+            payload: response.data
+        }) 
+    } catch(err) {
+            console.error('fetchCardResponse error', err)
+        }
+    }
+
 
 function* cardSaga () {
     yield takeLatest('CREATE_CARD', createCard);
     yield takeLatest('FETCH_CARD', fetchCard);
+    yield takeLatest('FETCH_CARD_RESPONSE', fetchCardResponse);
 }
 
 
