@@ -61,6 +61,22 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
     .catch((dbErr) => {
         res.sendStatus(500);
     })
-})
+});
+//delete route for card
+router.delete('/:id', (req, res) => {
+    const cardToDelete = req.params.id;
+    console.log('req.params.id:', req.params.id);
+    const queryText = `
+    DELETE FROM "cards"
+    WHERE "id"=$1;`;
+    const queryValues = [cardToDelete];
+    pool.query(queryText, queryValues)
+        .then((dbRes) => {
+        res.sendStatus(200);
+        }).catch((dbErr) => {
+        res.sendStatus(500);
+        console.log('card delete error', dbErr);
+    })
+});
 
 module.exports = router;

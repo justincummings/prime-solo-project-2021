@@ -32,6 +32,8 @@ router.post('/register', (req, res, next) => {
     });
 });
 
+
+
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
@@ -46,5 +48,6 @@ router.post('/logout', (req, res) => {
   req.logout();
   res.sendStatus(200);
 });
+
 
 module.exports = router;
