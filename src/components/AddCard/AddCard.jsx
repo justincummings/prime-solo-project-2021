@@ -18,7 +18,7 @@ function AddCardPage() {
   const [categoryInput, setCategoryInput] = useState(0);
 
   const saveCardClick = (event) => {
-    // event.preventDefault();
+    event.preventDefault();
     console.log('saveCardClicked');
     dispatch({
       type:'CREATE_CARD',
@@ -27,29 +27,40 @@ function AddCardPage() {
         response: responseInput,
         category_id: Number(categoryInput)}
     })
+    setResponseInput('');
+    setCategoryInput(0);
+    setPromptInput('');
   }
 
   return (
     <div className="container">
       <p>Add Card Page</p>
-      <form>
-        <textarea rows ="10" cols ="50" placeholder="prompt" 
-          onChange={(event) => setPromptInput(event.target.value)}>
+      <form onSubmit={saveCardClick}>
+        <textarea
+          rows ="10"
+          cols ="50"
+          placeholder="prompt" 
+          value={promptInput}
+          onChange={(e) => setPromptInput(e.target.value)}>
         </textarea>
         <br />
-        <textarea rows ="10" cols ="50" placeholder="response"
-          onChange={(event) => setResponseInput(event.target.value)}>
+        <textarea
+          rows ="10"
+          cols ="50"
+          placeholder="response"
+          value={responseInput}
+          onChange={(e) => setResponseInput(e.target.value)}>
         </textarea>
         <br />
-      <select name="Category" value={categoryInput} onChange={(event) => setCategoryInput(event.target.value)}>
+      <select name="Category" value={categoryInput} onChange={(event) => setCategoryInput(e.target.value)}>
         <option value="1">Interview Prep</option>
         <option value="2">Front-End</option>
         <option value="3">Back-End</option>
         <option value="4">General Tech/Tools</option>
         <option value="5">Code Challenge</option>
       </select>
+      <button>Save Flashcard</button>
       </form>
-      <button onClick={saveCardClick}>Save Flashcard</button>
     </div>
   );
 }

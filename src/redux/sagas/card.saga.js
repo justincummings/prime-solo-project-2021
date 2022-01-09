@@ -29,22 +29,6 @@ function* fetchCard (action) {
         }
     }
 
-function* fetchCardResponse (action) {
-    console.log ('fetchCardResponse saga', action.payload);
-    try {
-        const response = yield axios({
-            method: 'PUT',
-            url: 'api/addcard'
-        })
-        yield put({
-            type: 'FETCH_CARD_RESPONSE',
-            payload: response.data
-        }) 
-    } catch(err) {
-            console.error('fetchCardResponse error', err)
-        }
-    }
-
     function* deleteCard(action){
         try{
             const response = yield axios({
@@ -55,16 +39,48 @@ function* fetchCardResponse (action) {
                 type: 'FETCH_CARD'
             })
         } catch (err) {
-            console.error('deleteItem error:', err);
+            console.error('deleteCard error:', err);
         };
     }
 
+    function* editCard(action){
+        try{
+            const response = yield axios({
+                method: 'PUT',
+                url: `api/addcard/${action.payload.id}`,
+                data: action.payload
+            })
+            yield put({
+                type: 'FETCH_CARD'
+            })
+        } catch (err) {
+            console.error('editCard error', err);
+        }
+    }
+
+    function* fetchOneCard(action) {
+        try{
+            const response = yield axios({
+                method: 'GET',
+                url: `api/addcard/${action.payload.id}`,
+            })
+            console.log('fetchOneCard response.data', response.data); //stuck right here
+            const cardToEdit = response.data
+            yield put({
+                type: 'SET_CARD_TO_EDIT',
+                payload: cardToEdit
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
 function* cardSaga () {
     yield takeLatest('CREATE_CARD', createCard);
     yield takeLatest('FETCH_CARD', fetchCard);
-    yield takeLatest('FETCH_CARD_RESPONSE', fetchCardResponse);
     yield takeLatest('DELETE_CARD', deleteCard);
+    yield takeLatest('EDIT_CARD', editCard);
+    yield takeLatest('FETCH_ONE_CARD', fetchOneCard);
 }
 
 

@@ -25,7 +25,7 @@ function UserPage() {
         <LogOutButton className="btn" />
         <h1>Welcome to TechDeck</h1>
       </div>
-      <section className="cards">
+      <section className="cardPage">
         {cards.map((card) => {
             return (
               <Card {...card} key={card.id} />
@@ -40,7 +40,7 @@ export default UserPage;
 
 
 function Card(card) {
-  
+
   useEffect(() => {
     dispatch({ type: 'FETCH_CARD' });
   }, []);
@@ -58,8 +58,13 @@ function Card(card) {
   }
 
   return (
-    <div onClick={() => setShowResponse(!showResponse)}>
-      {showResponse?<div>{card.response}</div>:<div >{card.prompt}</div>}
-      <button>edit not working</button><br /><button onClick={() => deleteCard(card.id)}>delete</button>
-    </div>)
+    <section className='card'>
+      <div onClick={() => setShowResponse(!showResponse)}>
+        {showResponse?<div>{card.response}</div>:<div >{card.prompt}</div>}
+        <button onClick={() => history.push(`/edit/${card.id}`)}>edit not working</button>
+        <br />
+        <button onClick={() => deleteCard(card.id)}>delete</button>
+      </div>
+    </section>
+    )
 }

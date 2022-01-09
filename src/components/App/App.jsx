@@ -19,7 +19,7 @@ import AddCard from '../AddCard/AddCard';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-import ResponsePage from '../ResponsePage/ResponsePage';
+import EditCard from '../EditCard/EditCard';
 
 import './App.css';
 
@@ -54,7 +54,6 @@ function App() {
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
           <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
             exact
             path="/user"
           >
@@ -62,7 +61,6 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
             exact
             path="/addcard"
           >
@@ -70,11 +68,10 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
             exact
-            path="/response"
+            path="/edit/:id"
           >
-            <ResponsePage />
+            <EditCard />
           </ProtectedRoute>
 
           <Route

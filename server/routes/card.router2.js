@@ -3,7 +3,7 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
-//get route to display flashcard prompt on user page
+//get route
 router.get('/', rejectUnauthenticated, (req, res) => {
     const sqlQuery = `
         SELECT * FROM "cards"
@@ -20,12 +20,12 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     })
 });
 
-//post route to send input to DB
+//post route to DB
 router.post('/', rejectUnauthenticated, (req, res) => {
     console.log('in router post');
     console.log(req.body);
     console.log('user', req.user);
-    const sqlQuery = `
+    const sqlText = `
     INSERT INTO "cards"
         ("prompt", "response", "user_id")
     VALUES
@@ -36,9 +36,9 @@ router.post('/', rejectUnauthenticated, (req, res) => {
         req.body.response,
         req.user.id
     ];
-    pool.query(sqlQuery, sqlValues)
+    pool.query(sqlText, sqlValues)
     .then((dbRes) => {
-        console.log('sqlQuery', sqlQuery);
+        console.log('sqlQuery', sqlText);
     res.sendStatus(201);
     })
     .catch((dbErr) => {
@@ -46,15 +46,16 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     })
 });
 
-//put route for the card response
-router.put('/:id', rejectUnauthenticated, (req, res) => {
-    const sqlQuery = `
-    SELECT * FROM "cards"
-    WHERE "user_id"=$1;
+router.get('/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText = `
+        SELECT * FROM "cards"
+        WHERE "id"=$1;
     `;
-    const sqlValues = [req.user.id];
-    console.log('in get put route for card response', sqlQuery);
-    pool.query(sqlQuery, sqlValues)
+    const sqlValues = [
+        req.params.id
+    ];
+    console.log('in get route for cards', sqlQuery);
+    pool.query(sqlText, sqlValues)
         .then((dbRes) => {
             res.send(dbRes.rows);
         })
@@ -62,15 +63,17 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
         res.sendStatus(500);
     })
 });
+
+
 //delete route for card
 router.delete('/:id', (req, res) => {
     const cardToDelete = req.params.id;
     console.log('req.params.id:', req.params.id);
-    const queryText = `
+    const sqlText = `
     DELETE FROM "cards"
     WHERE "id"=$1;`;
-    const queryValues = [cardToDelete];
-    pool.query(queryText, queryValues)
+    const sqlValues = [cardToDelete];
+    pool.query(sqlText, sqlValues)
         .then((dbRes) => {
         res.sendStatus(200);
         }).catch((dbErr) => {
@@ -78,5 +81,30 @@ router.delete('/:id', (req, res) => {
         console.log('card delete error', dbErr);
     })
 });
+
+router.put('/:id', (req, res) => {
+    const sqlText = `
+        UPDATE cards
+        SET 
+            prompt = $1,
+            response = $2
+        WHERE id = $3;
+    `;
+    const sqlValues = [
+        req.body.prompt,
+        req.body.response,
+        req.params.id
+    ];
+    
+    pool.query(sqlText, sqlValues)
+        .then((dbRes) => {
+        res.sendStatus(200);
+    })
+    .catch((dbErr) => {
+        console.log('UPDATE database error', dbErr);
+        res.sendStatus(500);
+    });
+});
+
 
 module.exports = router;
