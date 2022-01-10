@@ -93,7 +93,7 @@ router.put('/:id', (req, res) => {
     const sqlValues = [
         req.body.prompt,
         req.body.response,
-        req.params.id
+        req.body.user_id
     ];
     
     pool.query(sqlText, sqlValues)

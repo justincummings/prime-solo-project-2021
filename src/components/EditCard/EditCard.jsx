@@ -5,8 +5,6 @@ import { useEffect } from 'react';
 
 function EditCard() {
     const params = useParams();
-    console.log('params:');
-    console.log(params);
 
     useEffect(() => {
     // dispatch to a saga that will populate our
@@ -38,7 +36,7 @@ function EditCard() {
     dispatch({
         type: 'EDIT_CARD',
         payload: {
-            user_id: params.user_id,
+            user_id: params.id,
             prompt: cardToEdit.prompt,
             response: cardToEdit.response
         }

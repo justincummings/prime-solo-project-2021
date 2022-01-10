@@ -44,10 +44,11 @@ function* fetchCard (action) {
     }
 
     function* editCard(action){
+        console.log('action.paylod:', action.payload);
         try{
             const response = yield axios({
                 method: 'PUT',
-                url: `api/addcard/${action.payload.id}`,
+                url: `api/addcard/${action.payload.user_id}`,
                 data: action.payload
             })
             yield put({
@@ -58,8 +59,7 @@ function* fetchCard (action) {
         }
     }
 
-    function* fetchOneCard(action) {//this generator function not firing
-        console.log('action', action);
+    function* fetchOneCard(action) {
         try{
             const response = yield axios({
                 method: 'GET',
@@ -83,6 +83,5 @@ function* cardSaga () {
     yield takeLatest('EDIT_CARD', editCard);
     yield takeLatest('FETCH_ONE_CARD', fetchOneCard);
 }
-
 
 export default cardSaga;
