@@ -13,7 +13,7 @@ function EditCard() {
     // editThisCard reducer
     dispatch({
         type: 'FETCH_ONE_CARD',
-        payload: params.user_id
+        payload: params.id
     })
 }, [])
 

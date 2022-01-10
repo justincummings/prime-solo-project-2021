@@ -10,7 +10,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         WHERE "user_id"=$1;
     `;
     const sqlValues = [req.user.id];
-    console.log('in get route for cards', sqlQuery);
+    // console.log('in get route for cards', sqlQuery);
     pool.query(sqlQuery, sqlValues)
         .then((dbRes) => {
             res.send(dbRes.rows);
@@ -38,7 +38,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     ];
     pool.query(sqlText, sqlValues)
     .then((dbRes) => {
-        console.log('sqlQuery', sqlText);
+        console.log('sqlText', sqlText);
     res.sendStatus(201);
     })
     .catch((dbErr) => {
@@ -54,10 +54,10 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     const sqlValues = [
         req.params.id
     ];
-    console.log('in get route for cards', sqlQuery);
+    // console.log('in get route for cards', sqlText);
     pool.query(sqlText, sqlValues)
         .then((dbRes) => {
-            res.send(dbRes.rows);
+            res.send(dbRes.rows[0]);
         })
     .catch((dbErr) => {
         res.sendStatus(500);

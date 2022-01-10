@@ -58,16 +58,17 @@ function* fetchCard (action) {
         }
     }
 
-    function* fetchOneCard(action) {
+    function* fetchOneCard(action) {//this generator function not firing
+        console.log('action', action);
         try{
             const response = yield axios({
                 method: 'GET',
-                url: `api/addcard/${action.payload.id}`,
+                url: `api/addcard/${action.payload}`,
             })
-            console.log('fetchOneCard response.data', response.data); //stuck right here
+            console.log('fetchOneCard response.data', response.data); 
             const cardToEdit = response.data
             yield put({
-                type: 'SET_CARD_TO_EDIT',
+                type: 'SET_EDIT_REDUCER',
                 payload: cardToEdit
             })
         } catch (err) {
