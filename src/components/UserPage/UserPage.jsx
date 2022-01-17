@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import LogOutButton from '../LogOutButton/LogOutButton';
 import {useSelector, useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import ReactDOM from 'react-dom';
 import './CardList.css'
-import axios from 'axios';
+import {Grid, IconButton, Paper, Card, CardContent, CardActions, Typography} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function UserPage() {
 
@@ -20,17 +21,20 @@ function UserPage() {
   return (
     <main>
       <div className="container">
-        <h2>Welcome, {user.username}!</h2>
-        <p>Your ID is: {user.id}</p>
-        <LogOutButton className="btn" />
-        <h1>Welcome to TechDeck</h1>
+        <h1>Welcome to TechDeck: {user.username}</h1>
       </div>
       <section className="cardPage">
-        {cards.map((card) => {
-            return (
-              <Card {...card} key={card.id} />
-            );
-          })}
+        <Grid container rowSpacing={1} columnSpacing={{xs: 2, sm: 4, md: 5 }}>
+            {cards.map((card) => {
+              return (
+                <Grid item>
+                  <Paper elevation="7">
+                    <Flashcard {...card} key={card.id} />
+                  </Paper>
+                </Grid>
+              );
+            })}
+        </Grid>
       </section>
     </main>
   );
@@ -39,7 +43,7 @@ function UserPage() {
 export default UserPage;
 
 
-function Card(card) {
+function Flashcard(card) {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_CARD' });
@@ -58,13 +62,18 @@ function Card(card) {
   }
 
   return (
-    <section className='card'>
-      <div onClick={() => setShowResponse(!showResponse)}>
-        {showResponse?<div>{card.response}</div>:<div >{card.prompt}</div>}
-        <button onClick={() => history.push(`/edit/${card.id}`)}>edit not working</button>
-        <br />
-        <button onClick={() => deleteCard(card.id)}>delete</button>
-      </div>
+    <section className="">
+      <Card variant="outlined" sx={{ maxWidth: 275, minHeight: 200, textAlign:'center' }}>
+        <CardContent>
+        <div onClick={() => setShowResponse(!showResponse)}>
+          {showResponse?<Typography>{card.response}</Typography>:<Typography>{card.prompt}</Typography>}
+        </div>
+        </CardContent>
+        <CardActions>
+        <IconButton variant="outlined" size="small" onClick={() => history.push(`/edit/${card.id}`)}><EditIcon /></IconButton>
+          <IconButton variant="outlined" size="small" onClick={() => deleteCard(card.id)}><DeleteIcon /></IconButton>
+        </CardActions>
+      </Card>
     </section>
     )
 }

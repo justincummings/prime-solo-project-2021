@@ -10,7 +10,7 @@ function Nav() {
   return (
     <div className="nav">
       <Link to="/home">
-        <h2 className="nav-title">techDeck</h2>
+        <img src="/images/techdeck-logos_transparent.png" height="90px" alt="techDeck"></img>
       </Link>
       <div>
         {/* If no user is logged in, show these links */}
