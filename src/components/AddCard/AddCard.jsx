@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import {Box, Typography } from '@mui/material';
 
 function AddCardPage() {
 
@@ -34,7 +35,16 @@ function AddCardPage() {
 
   return (
     <div className="container">
-      <p>Add Card Page</p>
+      <Box sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        textAlign: "center",
+        alignItems: "center"
+      }}>
+      <br/>
+      <Typography>Add Card</Typography>
+      <br />
       <form onSubmit={saveCardClick}>
         <textarea
           rows ="10"
@@ -61,6 +71,7 @@ function AddCardPage() {
       </select>
       <button>Save Flashcard</button>
       </form>
+      </Box>
     </div>
   );
 }
